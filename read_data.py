@@ -3,7 +3,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 # Handle the incoming data
-book = xlrd.open_workbook('angle_data_full_ROM.xlsx')
+book = xlrd.open_workbook('Sam_full_ROM_1_method_3.xlsx')
 col_elements = len(book._sharedstrings[2].split(","))
 row_elements = len(book._sharedstrings)
 data_array = np.zeros([row_elements, col_elements])
