@@ -1,3 +1,4 @@
+# Read me please!
 - Methods explained:
 	- Notations:
 		- quat1: IMU on shank
