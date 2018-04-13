@@ -1,3 +1,4 @@
+
  ################################################################################
 # showdata.py
 #
@@ -79,16 +80,21 @@ def checkfile(path):
 
 
 # prepare data for export function
-def prepareData(arduinoString):
+def prepareData(arduinoString, dataLabel):
     dataArray = arduinoString.decode().split(',')
-    dataValue = np.zeros((1, 13))
-    dataValue[0, 0] = float(dataArray[1])
-    for i in range(3):
-        dataValue[0, i + 1] = float(dataArray[i + 3])
-        dataValue[0, i + 4] = float(dataArray[i + 7])
-        dataValue[0, i + 7] = float(dataArray[i + 11])
-        dataValue[0, i + 10] = float(dataArray[i + 15])
-    toDf = df(dataValue, columns=dataLabel)
+    if  len(dataArray) > 0:
+        dataValue = np.zeros([1, len(dataArray)])
+    else:
+        dataValue = np.zeros([1, 1])
+    for i in range(len(dataArray)):
+        dataValue[0, i] = float(dataArray[i])
+    # dataValue[0, 0] = float(dataArray[1])
+    # for i in range(3):
+    #     dataValue[0, i + 1] = float(dataArray[i + 3])
+    #     dataValue[0, i + 4] = float(dataArray[i + 7])
+    #     dataValue[0, i + 7] = float(dataArray[i + 11])
+    #     dataValue[0, i + 10] = float(dataArray[i + 15])
+    toDf = df(dataValue, columns= dataLabel)
     return (toDf)
 
 
@@ -106,26 +112,26 @@ def main():
     # plot parameters
     analogData = AnalogData(100)
     analogPlot = AnalogPlot(analogData)
-    # setup label for data
-    dataLabel = ['angle',
-                 'acce1_X', 'acce1_Y', 'acce1_Z',
-                 'gyro1_X', 'gyro1_Y', 'gyro1_Z',
-                 'acce2_X', 'acce2_Y', 'acce2_Z',
-                 'gyro2_X', 'gyro2_Y', 'gyro2_Z']
-    final_df = df(columns=dataLabel)
+
 
     print('plotting data...')
 
     # open serial port
     ser = serial.Serial(strPort, 9600)
+    line = ser.readline()
+    # setup label for data
+    dataSize = line.decode().split(',')
+    dataLabel = ['' for x in range(len(dataSize))]
+    final_df = df(columns=dataLabel)
+
     while True:
         try:
             line = ser.readline()
-            toDf = prepareData(line)
+            toDf = prepareData(line, dataLabel)
             final_df = final_df.append(toDf)
-            data = [toDf["angle"].iloc[-1], 0]
+            # data = [toDf["angle"].iloc[-1], 0]
             # print data
-            analogData.add(data)
+            analogData.add(toDf)
             analogPlot.update(analogData)
         except KeyboardInterrupt:
             print('exiting, exporting data')
