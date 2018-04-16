@@ -16,8 +16,7 @@ def group_plot(data_array):
         ax.set_yticks(major_ticks)
         ax.grid(which='both')
 
-    plt.tight_layout()
-    plt.show()
+    return axs
 
 # Handle the incoming data
 def main(path: str):
