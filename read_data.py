@@ -11,9 +11,11 @@ def group_plot(data_array):
         ax = axs[index]
         y = data_array[:, index]
         ax.plot(x, y)
-        major_ticks = np.arange(0, 360, 20)
+        y_major_ticks = np.arange(0, 360, 20)
+        x_major_ticks = np.arange(0, max(x), 1000)
         ax.set_ylim([0, 360])
-        ax.set_yticks(major_ticks)
+        ax.set_yticks(y_major_ticks)
+        ax.set_xticks(x_major_ticks)
         ax.grid(which='both')
 
     return axs
