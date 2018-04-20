@@ -4,6 +4,12 @@ from pandas import DataFrame as df
 from matplotlib import pyplot as plt
 
 def group_plot(data_array):
+    """
+    Plot input data array with the last column as time stamp
+
+    @param data_array:
+    @return:
+    """
     # Plot data
     fig, axs = plt.subplots(nrows=4, ncols=1, sharex=True, figsize = [11,11])
     x = data_array[:, 4]

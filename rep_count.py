@@ -4,7 +4,7 @@ import read_data
 from matplotlib import pyplot as plt
 
 def main():
-    path = 'data/Sam_full_ROM_set_2_method_1.xlsx'
+    path = 'data/Sam_full_ROM_set_1_method_1.xlsx'
     data = read_data.main(path)
 
     ax = read_data.group_plot(data)
@@ -91,7 +91,8 @@ def main():
 
                 mag[index] = current_peak[index] - current_start_value[index]
                 if abs(mag[index]) > 30 \
-                        and abs(current_peak[index] - current_marked_peak[index]) > 20:
+                        and abs(current_peak[index] - current_marked_peak[index]) > 20 \
+                        and current_sign[index] != prev_sign[index]:
                     peak_boo[index] = 1
                     current_marked_peak[index] = current_peak[index]
                     if cycle_boo[index] == 1:
@@ -126,6 +127,7 @@ def main():
                 cycle_boo[index] = 0
                 cycle_count[index] += 1
                 end_sign[index] = current_sign[index]
+                print([index, current_peak[index] - current_start_value[index]])
                 current_peak[index] = 0
                 current_marked_peak[index] = 0
                 ax[index].axvline(x=current_loc[index], color='#d67e27')
