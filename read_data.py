@@ -11,7 +11,7 @@ def group_plot(data_array):
     @return:
     """
     # Plot data
-    fig, axs = plt.subplots(nrows=4, ncols=1, sharex=True, figsize = [11,11])
+    fig, axs = plt.subplots(nrows=4, ncols=1, sharex=True, figsize = [14,14])
     x = data_array[:, 4]
     for index in range(0,4):
         ax = axs[index]
